@@ -1,5 +1,16 @@
+// Importa o framework Express para servidor web
 import express from 'express';
 
+// Importa MongoClient para conexão com MongoDB
+import { MongoClient } from 'mongodb';
+
+// Importa função para conectar ao banco de dados
+import conectarAoBanco from './src/config/dbConfig.js';
+
+// Conecta ao banco MongoDB usando a string de conexão do .env
+const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+
+// Array local de posts com id, descrição e URL da imagem
 const posts = [
     {
         id: 1,
@@ -33,27 +44,34 @@ const posts = [
     }
 ];
 
-
+// Cria uma aplicação Express
 const app = express();
 
+// Configura o Express para interpretar JSON no corpo das requisições
 app.use(express.json());
 
+// Inicializa o servidor na porta 3000 e exibe mensagem no console
 app.listen(3000, () => {
     console.log("servidor escutando");
 });
 
-app.get("/posts", (req, res) => {
+// Função assíncrona para buscar todos os posts no MongoDB
+async function getTodosPosts(){
+    // Seleciona o banco de dados
+    const db = conexao.db("imersao-instabyte");
+    // Seleciona a coleção "posts"
+    const colecao = db.collection("posts");
+
+    // Retorna todos os documentos da coleção como array
+    return colecao.find().toArray();
+}
+
+// Rota GET /posts que responde com a lista de posts do banco
+app.get("/posts", async (req, res) => {
+    // Busca todos os posts do banco
+    const posts =  await getTodosPosts();
+    // Envia a resposta com status 200 e dados em JSON
     res.status(200).json(posts);
 });
 
-function buscarPostPorID(id){
-    return posts.findIndex((posts) => {
-        return posts.id === Number(id);
-    })
-}
 
-app .get("/posts", (req, res) => {
-    const index = buscarPostPorID(req.params.id);    
-    res.status(200).json(posts[index]);
-
-});
