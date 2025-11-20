@@ -5,7 +5,7 @@ import { listarPosts } from "../controllers/postsController.js";
 const routes = (app) => {
     app.use(express.json());
     app.get("/posts",listarPosts);
-
+    app.post("/posts", )
 }
 
 export default  routes;
