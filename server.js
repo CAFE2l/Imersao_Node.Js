@@ -48,7 +48,7 @@ const posts = [
 const app = express();
 
 // Configura o Express para interpretar JSON no corpo das requisições
-app.use(express.json());
+
 
 // Inicializa o servidor na porta 3000 e exibe mensagem no console
 app.listen(3000, () => {
@@ -65,13 +65,5 @@ async function getTodosPosts(){
     // Retorna todos os documentos da coleção como array
     return colecao.find().toArray();
 }
-
-// Rota GET /posts que responde com a lista de posts do banco
-app.get("/posts", async (req, res) => {
-    // Busca todos os posts do banco
-    const posts =  await getTodosPosts();
-    // Envia a resposta com status 200 e dados em JSON
-    res.status(200).json(posts);
-});
 
 
