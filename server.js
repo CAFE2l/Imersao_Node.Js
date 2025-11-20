@@ -3,12 +3,11 @@ import express from 'express';
 
 // Importa MongoClient para conexão com MongoDB
 import { MongoClient } from 'mongodb';
-
+import routes from './src/routes/postsRoutes.js';
 // Importa função para conectar ao banco de dados
 import conectarAoBanco from './src/config/dbConfig.js';
 
-// Conecta ao banco MongoDB usando a string de conexão do .env
-const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+
 
 // Array local de posts com id, descrição e URL da imagem
 const posts = [
@@ -47,23 +46,11 @@ const posts = [
 // Cria uma aplicação Express
 const app = express();
 
-// Configura o Express para interpretar JSON no corpo das requisições
-
+routes(app);
 
 // Inicializa o servidor na porta 3000 e exibe mensagem no console
 app.listen(3000, () => {
     console.log("servidor escutando");
 });
-
-// Função assíncrona para buscar todos os posts no MongoDB
-async function getTodosPosts(){
-    // Seleciona o banco de dados
-    const db = conexao.db("imersao-instabyte");
-    // Seleciona a coleção "posts"
-    const colecao = db.collection("posts");
-
-    // Retorna todos os documentos da coleção como array
-    return colecao.find().toArray();
-}
 
 
