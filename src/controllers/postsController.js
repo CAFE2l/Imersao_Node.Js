@@ -2,7 +2,7 @@ import { ReturnDocument } from "mongodb";
 import {getTodosPosts, criarPost} from "../Models/postsModel.js";
 
 export async function listarPosts(req, res){
-    const posts = await getTodosPostos();
+    const posts = await getTodosPosts();
     res.status(200).json(posts);
 }
 
