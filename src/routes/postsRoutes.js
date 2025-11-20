@@ -3,12 +3,11 @@ import { listarPosts, postarNovoPost } from "../controllers/postsController.js";
 import multer from 'multer';
 
 const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => {
-        cb(null, "./uploads");
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
     },
-    filename: (req, file, cb) => {
-        const timestamp = Date.now();
-        cb(null, `${timestamp}-${file.originalname}`);
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
     }
 });
 
