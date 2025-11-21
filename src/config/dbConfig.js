@@ -15,3 +15,12 @@ export default async function conectarAoBanco(stringConexao){
         process.exit();
     }
 }
+
+export async function desconectarDoBanco(client) {
+    try {
+        await client.close();
+        console.log('Desconectado do MongoDB Atlas.');
+    } catch (erro) {
+        console.error('Erro ao desconectar do banco de dados:', erro);
+    }
+}

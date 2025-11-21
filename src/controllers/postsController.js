@@ -1,7 +1,7 @@
 import { ReturnDocument } from "mongodb";
-import {getTodosPosts, criarPost, uploadImagem, atualizarPost} from "../Models/postsModel.js";
+import {getTodosPosts, criarPost, atualizarPost} from "../Models/postsModel.js";
 import fs from 'fs';
-
+import gerarDescricaoComGemini from "../services/geminiService.js";
 
 export async function listarPosts(req, res){
     const posts = await getTodosPosts();
@@ -25,15 +25,21 @@ export async function postarNovoPost(req, res){
 export async function atualizarNovoPost(req, res){
     const id = req.params.id;
     const urlImagem = `http://localhost:3000/${id}.png`;
-    const post = {
+    
+    try{
+        const ImgBuffer = fs.readFileSync(`uploads/${id}.png`);
+        const descricao = await gerarDescricaoComGemini(imgBuffer);
+
+        const post = {
         imgUrl: urlImagem,
-        descricao: req.body.descricao,
+        descricao: descricao,
         alt: req.body.alt
     
-    }
-    try{
+    };
         const postCriado = await atualizarPost(id, post);
         res.status(200).json(postCriado);
+
+        
 
    } catch(erro) {
         console.error(erro.message);
