@@ -1,6 +1,8 @@
 import express from "express";
-import { listarPosts, postarNovoPost, uploadImagem, atualizarNovoPost } from "../controllers/postsController.js";
+import { listarPosts, postarNovoPost, atualizarNovoPost } from "../controllers/postsController.js";
 import multer from 'multer';
+import { uploadImagem } from "../Models/postsModel.js";
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
