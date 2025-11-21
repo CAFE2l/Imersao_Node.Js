@@ -1,7 +1,7 @@
 import express from "express";
 import { listarPosts, postarNovoPost, atualizarNovoPost } from "../controllers/postsController.js";
 import multer from 'multer';
-import { uploadImagem } from "../Models/postsModel.js";
+import { uploadImagem } from "../models/postsModel.js";
 import cors from 'cors';
 
 const corsOptions = {
