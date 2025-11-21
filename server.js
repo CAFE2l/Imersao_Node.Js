@@ -45,7 +45,7 @@ const posts = [
 
 // Cria uma aplicação Express
 const app = express();
-
+app.use(express.static("uploads"));
 routes(app);
 
 // Inicializa o servidor na porta 3000 e exibe mensagem no console
